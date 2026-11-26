@@ -18,13 +18,13 @@ import '@photo-sphere-viewer/virtual-tour-plugin/index.css';
 import { assertExists } from '@truckermudgeon/base/assert';
 import { debounce } from '@truckermudgeon/base/debounce';
 import { AtsSelectableDlcs } from '@truckermudgeon/map/constants';
+import type { Mode } from '@truckermudgeon/ui';
 import {
   atsIcons,
   BaseMapStyle,
   defaultMapStyle,
   GameMapStyle,
 } from '@truckermudgeon/ui';
-import type { Mode } from '@truckermudgeon/ui/colors';
 import type { Marker as MapLibreGLMarker } from 'maplibre-gl';
 import { memo, useMemo, useRef, useState } from 'react';
 import type { MapRef } from 'react-map-gl/maplibre';
@@ -275,10 +275,12 @@ export const StreetView = memo(
           }}
           minZoom={9}
           maxZoom={14}
-          maxBounds={[
-            currentPano.point.map(v => v - 1) as [number, number], // southwest corner (lon, lat)
-            currentPano.point.map(v => v + 1) as [number, number], // southwest corner (lon, lat)
-          ]}
+          maxBounds={
+            [
+              currentPano.point.map(v => v - 1), // southwest corner (lon, lat)
+              currentPano.point.map(v => v + 1), // northeast corner (lon, lat)
+            ].flat() as [number, number, number, number]
+          }
           mapStyle={defaultMapStyle}
           attributionControl={false}
           initialViewState={{

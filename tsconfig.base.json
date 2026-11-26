@@ -22,7 +22,8 @@
     "lib": ["ESNext"],
     "allowSyntheticDefaultImports": true,
     "module": "ESNext",
-    "moduleResolution": "node",
-    "noEmit": true
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "types": ["vitest/globals"]
   }
 }
